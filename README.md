@@ -7,4 +7,5 @@ on the far right with the red background is what you actually made for that mont
 if you notice the one above doesnt have one because earnings hadnt changed.
 the ones under it are updated projected earnings. to the right of that is new node count.
 everything else is pretty self explanitory due to the labels.
-![image](https://user-images.githubusercontent.com/5101197/129344181-26fbe602-ed63-4f68-b8e2-65610b881e66.png)
+![image](https://user-images.githubusercontent.com/5101197/129348721-5a0d1c79-afcd-4f95-86f4-a8f8048b00df.png)
+
