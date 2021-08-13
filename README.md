@@ -1,7 +1,7 @@
 # Master-Node-Projection-App
 An Html/JS webb app that projects earnings for node systems.
 
-The following is a preview of what the chart looks like when a node has been purchased for the month.
+The following is a preview of what the chart looks like when a node has been purchased for the month(the last row).
 (above it is a month where one wasnt able to be afforded.)
 on the far right with the red background is what you actually made for that month.
 if you notice the one above doesnt have one because earnings hadnt changed.
