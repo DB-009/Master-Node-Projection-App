@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<style>
+table {
+  margin-top:3em;
+  width:100%;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+#t01 tr:nth-child(even) {
+  background-color: #eee;
+}
+#t01 tr:nth-child(odd) {
+ background-color: #fff;
+}
+#t01 th {
+  background-color: black;
+  color: white;
+}
+#t01 td {
+  font-size:25px;
+}
+.green
+{
+	color:green;
+}
+.red
+{
+	color:red;
+}
+.tokenEarnings
+{
+	color:black;
+	background-color:green;
+	padding:2px;
+}
+.USD_Earnings
+{
+	color:white;
+	background-color:black;
+	padding:2px;
+}
+.Prev_Earnings
+{
+	color:white;
+	background-color:red;
+	padding:2px;
+}
+</style>
+<body>
+
+
+<form id="target"  >
+
+
+
+<div style="display:block;float:right">
+<div style="display:block;float:right">
+  <label for="months">Number of Months to project(1-200):</label>
+  <input id="months" style="margin-bottom:3px" type="number"  name="months"
+       min="1" max="=200" value="12">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="startingNodes">Number of Nodes starting with (1-200):</label>
+  <input id="startingNodes" style="margin-bottom:3px" type="number"  name="startingNodes"
+       min="1" max="=200" value="1">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="minStake">Minimum Stake (3000-10000):</label>
+  <input id="minStake" style="margin-bottom:3px" type="number"  name="minStake"
+       min="10" max="=10000" value="5000">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="tokenName">token Name:</label>
+  <input id="tokenName" style="margin-bottom:3px" type="text" required  name="tokenName" value="SRX">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="tokenPrice">token Price:</label>
+  <input id="tokenPrice" style="margin-bottom:3px" type="number"  name="tokenPrice"
+         min="0.1" max="=200" step="0.01" value="1.6">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="monthlyReward_per">Monthly reward per node:</label>
+  <input id="monthlyReward_per" style="margin-bottom:3px" type="number"  name="monthlyReward_per"
+         min="0.01" max="=3000" step="0.01" value="750">
+</div>
+<br><br>
+
+<div style="display:block;float:right">
+  <label for="serverCost">server Cost perNode:</label>
+  <input id="serverCost" style="margin-bottom:3px" type="number"  name="serverCost"
+         min="0" max="=200" step="0.01" value="20">
+</div>
+<br><br>
+
+<div style="display:block;float:right;margin-bottom:3em">
+     <br><input style="float:right" type="submit">
+     </div>
+ 
+</form>
+</div>
+
+<div style="display:block;float:right;margin-right:3em">
+<label >Click these to change price input with current price</label>
+	<div>
+	  <button id='srxBTN' > SRX Price </button>
+
+	  <button id='strongBTN' > STRONG Price </button>
+	</div>
+</div>
+
+
+  <div id="tableContent">
+  <table id="t01">
+    <tr>
+      <th>MonthCount</th>
+      <th>Node Purchases</th> 
+      <th>Payout</th>
+      <th>Next Monthly Rewards</th>
+      <th>Node Count</th>
+    </tr>
+
+ 
+  </table>
+  </div>
+
+
+
+
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+  <script>
+  
+   $('#srxBTN').click(   function (event)
+   {
+   event.preventDefault();
+	$.ajax({
+		url: 'https://www.bitrue.com/api/v1/ticker/24hr?symbol=SRXUSDT',
+		type:"GET",
+		success: function(result){
+		console.log(result[0].lastPrice);
+		var decimal = Number(result[0].lastPrice);
+			document.getElementById("minStake").value = 5000;
+			document.getElementById("tokenName").value = "SRX";
+			document.getElementById("tokenPrice").value = decimal.toFixed(2);		
+			document.getElementById("monthlyReward_per").value = 750;
+			document.getElementById("serverCost").value = 20;
+		},
+		error:function(error){
+			alert('error might have been throttled for too many requests <br> '+ error);
+		}
+	})
+   });
+   
+   
+   $('#strongBTN').click(   function (event)
+   {
+   event.preventDefault();
+	$.ajax({
+		url: 'https://www.bitrue.com/api/v1/ticker/24hr?symbol=STRONGUSDT',
+		type:"GET",
+		success: function(result){
+		console.log(result[0].lastPrice);
+		var decimal = Number(result[0].lastPrice);
+			document.getElementById("minStake").value = 10;
+			document.getElementById("tokenName").value = "STRONG";
+			document.getElementById("tokenPrice").value = decimal.toFixed(2);
+			document.getElementById("monthlyReward_per").value = 2.76;
+			document.getElementById("serverCost").value = 16;
+		},
+		error:function(error){
+			alert('error might have been throttled for too many requests <br> '+ error);
+		}
+	})
+   });
+
+  
+  $( "#target" ).submit(function( event ) {
+ event.preventDefault();
+var months = document.getElementById("months").value;
+var minStake = document.getElementById("minStake").value;
+var tokenPrice = document.getElementById("tokenPrice").value;
+var tokenMonthly = document.getElementById("monthlyReward_per").value;
+var tokenName = document.getElementById("tokenName").value;
+var startingNodes = document.getElementById("startingNodes").value;
+var serverCost = document.getElementById("serverCost").value;
+
+  console.log( "earning "+ ((startingNodes*tokenMonthly)*tokenPrice) + " in USD a month"
+   + "\n" + "earning "+ ((startingNodes*tokenMonthly)) + " in token a month");
+ 
+
+  var tableRows = document.getElementById("t01").rows.length;
+  console.log("TABLE ROWS"+tableRows)
+  for(var x= tableRows-1;x > 0;x--)
+  {
+    document.getElementById("t01").deleteRow(x);
+  }
+ console.log("TABLE ROWS"+tableRows)
+ 
+ var leftover = 0;
+ var initalLeftOver = 0;
+ var nodes = Number(startingNodes);
+ for(var month =1;month <=months;month++)
+ {
+ 
+	if(month > 1)
+	{
+		initalLeftOver = leftover;
+	}
+ 
+ 	var serverCost_in_token = (serverCost*nodes)/tokenPrice;
+ 	leftover+= (nodes*tokenMonthly)-serverCost_in_token;
+ 	 console.log( "earned  "+ (nodes*tokenMonthly) + " on month "+ month 
+   + "\n" + "serverCost was $" + (serverCost*nodes) 
+   + "\n" +"leftover token: "+leftover)
+   
+      
+   var purchases = 0;
+   var oneServerCost_in_token = (serverCost)/tokenPrice;
+   var newServerCosts = 0;
+   
+   if(leftover >= minStake)
+   {
+   	purchases = (Math.floor(leftover/minStake));
+    leftover -= (purchases*minStake);
+    nodes= Number(nodes+purchases);
+    newServerCosts = purchases*oneServerCost_in_token
+    leftover-= newServerCosts;
+    console.log("Purchased "+purchases+" node(s) this month - left over is "+leftover 
+    + "\n" + " current node amount: "+ nodes);
+   }
+
+   var purchaseText = "";
+   var previousEarnings = "";
+   var leftOverText = "";
+   var nodeText = "";
+   if(purchases >=1 )
+   {
+	purchaseText = "<span class='red'>- " + ((purchases*minStake)+newServerCosts) + " "+ tokenName + " (node purchases)</span><br>"
+	nodeText = "<span class='green'>+"+purchases+"</span>";
+	previousEarnings = "<span class='Prev_Earnings'>earned "+ (((nodes-purchases)*tokenMonthly)) + " in " + tokenName + "</span><br><br>"
+   }
+   
+   	if(month > 1)
+	{
+	leftOverText = "+ "+ initalLeftOver + " " +tokenName + " (previous leftover)<br>" ;		
+	}
+
+   
+  $("#t01").find('tbody').append(
+	"<tr><td>"+month+" month"+
+	"</td><td>"+nodeText+
+	"</td><td>"+
+	leftOverText+
+	"<span class='green'> + " + (nodes*tokenMonthly) +" " +  tokenName +" (monthly reward)</span><br>"+
+	  
+	"<span class='red'>- " +serverCost_in_token+ " " + tokenName +" (server costs)</span><br>"+
+	  purchaseText+"<br>"+
+	"<span class='green'>"+leftover+ " " + tokenName + " (current total)"+
+   
+	"</span>"+
+	"</td><td style='text-align: center;'>"+
+
+	previousEarnings+
+	"<span class='tokenEarnings'> earning "+ ((nodes*tokenMonthly)) + " in " + tokenName + "</span>" +
+	"<br><br><span class='USD_Earnings'>earning "+ ((nodes*tokenMonthly)*tokenPrice) + " in USD </span>" +
+	"</td><td>"+nodes+"</td></tr>");
+ }
+  
+ console.log( "earning "+ ((nodes*tokenMonthly)*tokenPrice) + " in USD a month" 
+ + "\n" + "earning "+ ((nodes*tokenMonthly)) + " in token a month" 
+ + "\n" + "current nodes:" + nodes
+ + "\n" + "leftover token:" + leftover);
+ 
+});
+  </script>
+  
+  
+</html>
