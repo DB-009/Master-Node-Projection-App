@@ -18,4 +18,8 @@ The following is a preview of daily reward style chart. the first month no nodes
 the infomation showed is how much strong you had from previous month, how much you earned this month , minus the cost of a node and server if paid right then and there.
 ![image](https://user-images.githubusercontent.com/5101197/131310454-e5bbb638-7a80-4e03-898c-9ad02e7231db.png)
 
+on months where 2+ nodes can be purchased the node purchases will be listed as shown below. one after another showing the days into the month when to purchase
+![image](https://user-images.githubusercontent.com/5101197/131311348-b40b9029-8bcf-49b0-a764-33cff81973bc.png)
+
+
 
