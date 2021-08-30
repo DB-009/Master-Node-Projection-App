@@ -2,6 +2,7 @@
 An Html/JS webb app that projects earnings for node systems.
 
 **Form explanation**
+
 the 2 grey buttons on right auto fill some of the form for either SRX or STRONG
 
 1 = months to project
