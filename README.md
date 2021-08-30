@@ -1,7 +1,7 @@
 # Master-Node-Projection-App
 An Html/JS webb app that projects earnings for node systems.
 
-**Monthly payout Preview
+**Monthly payout Preview**
 
 The following is a preview of what the chart looks like when a node has been purchased for the month(the last row).
 (above it is a month where one wasnt able to be afforded.)
@@ -12,7 +12,7 @@ everything else is pretty self explanitory due to the labels.
 ![image](https://user-images.githubusercontent.com/5101197/131310136-157e787e-d0de-4c30-8df1-ff9e58c291d4.png)
 
 
-**Daily Reward Preview
+**Daily Reward Preview**
 
 The following is a preview of daily reward style chart. the first month no nodes were able to be purchased, second month one was able to be purchased.
 the infomation showed is how much strong you had from previous month, how much you earned this month , minus the cost of a node and server if paid right then and there.
