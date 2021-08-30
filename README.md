@@ -2,6 +2,7 @@
 An Html/JS webb app that projects earnings for node systems.
 
 Monthly payout Preview
+
 The following is a preview of what the chart looks like when a node has been purchased for the month(the last row).
 (above it is a month where one wasnt able to be afforded.)
 on the far right with the red background is what you actually made for that month.
@@ -12,6 +13,7 @@ everything else is pretty self explanitory due to the labels.
 
 
 Daily Reward Preview
+
 The following is a preview of daily reward style chart. the first month no nodes were able to be purchased, second month one was able to be purchased.
 the infomation showed is how much strong you had from previous month, how much you earned this month , minus the cost of a node and server if paid right then and there.
 ![image](https://user-images.githubusercontent.com/5101197/131310454-e5bbb638-7a80-4e03-898c-9ad02e7231db.png)
