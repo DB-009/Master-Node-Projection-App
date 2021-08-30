@@ -5,15 +5,23 @@ An Html/JS webb app that projects earnings for node systems.
 
 the 2 grey buttons on right auto fill some of the form for either SRX or STRONG
 
-1 = months to project
-2 = nodes you started with usually more than 1
-3 = amount of tokens you own in advance.
-4 = the name of token (if you press buttons its autofilled for SRX or Strong)
-5 = minimum stake of node, currently I have 4k for srx, 10 for strong.
-6 = price of 1 token (if you press buttons its autofilled for SRX or Strong)
-7 = monthly node reward (750 for srx, 2.76 for strong)
-8 = cost of a new server, and monthly cost for server 
-9 = does node do daily rewards (leave unchecked for SRX)
+**1** = months to project
+
+**2** = nodes you started with usually more than 1
+
+**3** = amount of tokens you own in advance.
+
+**4** = the name of token (if you press buttons its autofilled for SRX or Strong)
+
+**5** = minimum stake of node, currently I have 4k for srx, 10 for strong.
+
+**6** = price of 1 token (if you press buttons its autofilled for SRX or Strong)
+
+**7** = monthly node reward (750 for srx, 2.76 for strong)
+
+**8** = cost of a new server, and monthly cost for server 
+
+**9** = does node do daily rewards (leave unchecked for SRX)
 
 
 
