@@ -30,6 +30,12 @@
 	background-color:green !important;
 	padding:.5em !important;
 }
+.monthlyEarnings
+{
+	color:black;
+	background-color:yellow !important;
+	padding:.5em !important;
+}
 .USD_Earnings
 {
 	color:white;
@@ -197,6 +203,46 @@
 </div>
 
 
+<div class="col-12" style="display:block;float:right;margin-left:1em">
+<div class="tool-tip formcheck"  style="display:block;float:right">
+<span class="tooltiptext">Give yourself a monthly allowance or paycheck.</span>
+	<div   style="float:left">
+	  <label for="monthlyAllowance">Monthly Allowance:</label>
+	  <input class="form-check-input" id="monthlyAllowance" type="checkbox"  name="monthlyAllowance"
+			value="true">
+	</div>
+</div>
+</div>
+
+<div class="col-12" style="display:block;float:right;margin-left:1em">
+<div class="tool-tip formcheck"  style="display:block;float:right">
+<span class="tooltiptext">Only earn monthly allowance if atleast 1 node can be created.</span>
+	<div   style="float:left">
+	  <label for="nodePriority">Prioritize Node Creation:</label>
+	  <input class="form-check-input" id="nodePriority" type="checkbox"  name="nodePriority"
+			value="true">
+	</div>
+</div>
+</div>
+
+<div class="col-12"style="display:block;float:right;margin-left:1em">
+<div style="display:block;float:right;>
+  <label for="allowanceStart">Allowance Month start:</label>
+  <input id="allowanceStart" style="margin-bottom:1em" type="number"  name="allowanceStart"
+         min="1" step="1" value="1">
+</div>
+</div>
+
+<div class="col-12"style="display:block;float:right;margin-left:1em">
+<div style="display:block;float:right;>
+  <label for="allowanceAmount">Allowance Amount(USD):</label>
+  <input id="allowanceAmount" style="margin-bottom:1em" type="number"  name="allowanceAmount"
+         min="0" step="0.01" value="0">
+</div>
+</div>
+
+
+
 <div  style="display:block;float:right;margin-bottom:3em">
      <br><input style="float:right" class="btn btn-primary mb-2" type="submit">
      </div>
@@ -296,7 +342,7 @@
 			document.getElementById("minStake").value = 10;
 			document.getElementById("tokenName").value = "STRONG";
 			document.getElementById("tokenPrice").value = decimal.toFixed(2);
-			document.getElementById("monthlyReward_per").value = 2.821;
+			document.getElementById("monthlyReward_per").value = 2.82;
 			document.getElementById("serverCost").value = 16;
 			document.getElementById("dailyRewards").checked = true;
 		}
@@ -336,11 +382,11 @@ function monthlySubmit()
 	//var rewardHalved = document.getElementById("rewardHalved").checked;
 	//var topOff = document.getElementById("topOff").checked;
 	//var topOff_Percent = Number(document.getElementById("topOff_Percent").value);
-	var startingTokens = Number(document.getElementById("startingTokens").value);
-
-  console.log( "earning "+ ((startingNodes*tokenMonthly)*tokenPrice) + " in USD a month"
-   + "\n" + "earning "+ ((startingNodes*tokenMonthly)) + " in token a month");
- 
+	var startingTokens =	Number(document.getElementById("startingTokens").value);
+	var monthlyAllowance =	document.getElementById("monthlyAllowance").checked;
+	var allowanceStart	=	Number(document.getElementById("allowanceStart").value);
+	var allowanceAmount	=	Number(document.getElementById("allowanceAmount").value);
+	var nodePriority	=	document.getElementById("nodePriority").checked;
 
   var tableRows = document.getElementById("t01").rows.length;
   for(var x= tableRows-1;x > 0;x--)
@@ -352,10 +398,18 @@ function monthlySubmit()
  var leftover = Number(startingTokens);
  var initalLeftOver = 0;
  var nodes = Number(startingNodes);
+ 
+  var allowanceMonthStart = Number(allowanceStart);
+ var allowance = Number(allowanceAmount)
+ var allowanceEarned = Number(0);
+ var monthlyAllowanceEarned = false;
+ var allowancePrinted = false;
  for(var month =1;month <=months;month++)
  {
  
 	initalLeftOver = leftover;
+	monthlyAllowanceEarned = false;
+	allowanceEarned = Number(0);
 	
 /*
 	if(rewardHalved == true && month==4)
@@ -376,11 +430,42 @@ function monthlySubmit()
    
    if(leftover >= Number(minStake+oneServerCost_in_token))
    {
-   	purchases = (Math.floor(leftover/minStake));
-    leftover -= (purchases*minStake);
-    nodes= Number(nodes+purchases);
-    newServerCosts = purchases*oneServerCost_in_token;
-    leftover-= newServerCosts;
+   
+		var minAllowance = allowance;
+		if(nodePriority == true)
+		{
+			minAllowance = Number(allowance) + Number((minStake+oneServerCost_in_token)*tokenPrice);
+		}
+		
+		if(monthlyAllowance == true && Number(leftover*tokenPrice) >= minAllowance  && allowanceEarned < allowance && monthlyAllowanceEarned == false && month >= allowanceMonthStart)
+		{
+			allowanceEarned += leftover*tokenPrice;
+			console.log("Allowance earned = " + allowanceEarned);
+			if(allowanceEarned >= allowance)
+			{
+				allowanceEarned = Number(allowance);
+				monthlyAllowanceEarned = true;
+				leftover -= Number(allowance/tokenPrice);
+			}
+			
+			if(leftover >= Number(minStake+oneServerCost_in_token))
+			{
+				purchases = (Math.floor(leftover/minStake));
+				leftover -= (purchases*minStake);
+				nodes= Number(nodes+purchases);
+				newServerCosts = purchases*oneServerCost_in_token;
+				leftover-= newServerCosts;
+			}
+			
+		}
+		else
+		{
+			purchases = (Math.floor(leftover/minStake));
+			leftover -= (purchases*minStake);
+			nodes= Number(nodes+purchases);
+			newServerCosts = purchases*oneServerCost_in_token;
+			leftover-= newServerCosts;
+		}	
    }
 
 
@@ -388,12 +473,18 @@ function monthlySubmit()
    var previousEarnings = "";
    var leftOverText = "";
    var nodeText = "";
+   var allowanceText = "";
    if(purchases >=1 )
    {
 	purchaseText = "<span class='red'>- " + ((purchases*minStake)+newServerCosts) + " "+ tokenName + " (node purchases)</span><br>"
 	nodeText = "<span class='tokenEarnings'>+"+purchases+" node(s)</span>";
 	previousEarnings = "<span class='Prev_Earnings'>earned "+ (((nodes-purchases)*tokenMonthly)) + " in " + tokenName + "</span><br><br>"
    }
+   
+   if(monthlyAllowance == true && monthlyAllowanceEarned == true)
+	{
+		allowanceText = "<span class='monthlyEarnings'>- " +Number(allowanceEarned/tokenPrice)+ " " + tokenName +" (monthly allowance)</span><br>"
+	}
    
    	if(month > 1 || startingTokens > 0)
 	{
@@ -409,7 +500,8 @@ function monthlySubmit()
 	"<span class='green'> + " + ((nodes-purchases)*tokenMonthly) +" " +  tokenName +" (monthly reward)</span><br>"+
 	  
 	"<span class='red'>- " +serverCost_in_token+ " " + tokenName +" (server costs)</span><br>"+
-	  purchaseText+"<br>"+
+	  purchaseText+
+	  allowanceText + "<br><br>"+
 	"<span class='green'>"+leftover+ " " + tokenName + " (current total)"+
    
 	"</span>"+
@@ -428,21 +520,21 @@ function monthlySubmit()
 
 function dailySubmit()
 {
-	var months = Number(document.getElementById("months").value);
-	var minStake = Number(document.getElementById("minStake").value);
-	var tokenPrice = Number(document.getElementById("tokenPrice").value);
-	var tokenMonthly = Number(document.getElementById("monthlyReward_per").value);
-	var tokenName = document.getElementById("tokenName").value;
+	var months = 		Number(document.getElementById("months").value);
+	var minStake =		Number(document.getElementById("minStake").value);
+	var tokenPrice = 	Number(document.getElementById("tokenPrice").value);
+	var tokenMonthly = 	Number(document.getElementById("monthlyReward_per").value);
+	var tokenName = 	document.getElementById("tokenName").value;
 	var startingNodes = Number(document.getElementById("startingNodes").value);
-	var serverCost = Number(document.getElementById("serverCost").value);
+	var serverCost = 	Number(document.getElementById("serverCost").value);
 	//var rewardHalved = document.getElementById("rewardHalved").checked;
 	//var topOff = document.getElementById("topOff").checked;
 	//var topOff_Percent = Number(document.getElementById("topOff_Percent").value);
-	var startingTokens = Number(document.getElementById("startingTokens").value);
-
-  console.log( "earning "+ ((startingNodes*tokenMonthly)*tokenPrice) + " in USD a month"
-   + "\n" + "earning "+ ((startingNodes*tokenMonthly)) + " in token a month");
- 
+	var startingTokens =	Number(document.getElementById("startingTokens").value);
+	var monthlyAllowance =	document.getElementById("monthlyAllowance").checked;
+	var allowanceStart	=	Number(document.getElementById("allowanceStart").value);
+	var allowanceAmount	=	Number(document.getElementById("allowanceAmount").value);
+	var nodePriority	=	document.getElementById("nodePriority").checked;
 
   var tableRows = document.getElementById("t01").rows.length;
   for(var x= tableRows-1;x > 0;x--)
@@ -454,11 +546,20 @@ function dailySubmit()
  var leftover = Number(startingTokens);
  var initalLeftOver = 0;
  var nodes = Number(startingNodes);
- var currentDay = 1;
+ var currentDay = Number(1);
+ 
+ var allowanceMonthStart = Number(allowanceStart);
+ var allowance = Number(allowanceAmount)
+ var allowanceEarned = Number(0);
+ var monthlyAllowanceEarned = false;
+ var allowancePrinted = false;
+ var lastAllowanceRewardDay = Number(0);
  for(var month =1;month <=months;month++)
  {
  	   $("#t01").find('tbody').append(
 		"<tr><td class='USD_Earnings' style='text-align:center' colspan='1000'><h2> Month "+month+"</h2></td></tr>");
+
+
 
 /*		
 	if(rewardHalved == true && month==4)
@@ -471,14 +572,20 @@ function dailySubmit()
  */
 	var purchasesThisMonth = 0;
 	initalLeftOver = leftover;
+	var minAllowance = Number(allowance/tokenPrice);
+	if(nodePriority == true)
+	{
+		minAllowance = Number(allowance/tokenPrice)+ Number(nodeCost*tokenPrice);
+	}
 	for(var day = 1;day <= 31;day++)
 	{
-		leftover+= (nodes*(tokenMonthly/31));
+		var dailyEarnings = Number((nodes*(tokenMonthly/31)));
+		leftover+= dailyEarnings;
 		
 
 
 		var serverCost_in_token = Number((serverCost*nodes)/tokenPrice);
-		
+		var nodeCost = Number(minStake+oneServerCost_in_token);
 		
 		if(day == 31)
 		{
@@ -489,15 +596,52 @@ function dailySubmit()
 		var oneServerCost_in_token = Number(serverCost)/tokenPrice;
 		var newServerCosts = 0;
 	
-		console.log("MIN " + Number(minStake+oneServerCost_in_token))
-		if(leftover >= Number(minStake+oneServerCost_in_token))
+		
+		if(leftover >= nodeCost || leftover >= minAllowance)
 		{
-		purchases = (Math.floor(leftover/minStake));
-		purchasesThisMonth+=purchases;
-		leftover -= Number(purchases*minStake);
-		nodes= Number(nodes+purchases);
-		newServerCosts = purchases*oneServerCost_in_token;
-		leftover-= newServerCosts;
+
+			
+			var daysToEarnAllowance = Number(allowance/(dailyEarnings*tokenPrice));
+			var daysToPurchaseNode = Number((nodeCost)/dailyEarnings)
+			
+			var canGetAllowance = true;
+			if(Number(daysToPurchaseNode+daysToEarnAllowance) > 31 && nodePriority == true)
+			{
+				canGetAllowance = false;
+				console.log("ALLOWANCE MATH  day:" + currentDay + " " + (Number(currentDay-lastAllowanceRewardDay)) + "!!");
+				
+			}
+			else if(nodePriority == true && Number(currentDay-lastAllowanceRewardDay) < 30)
+			{
+				canGetAllowance = false;
+				console.log("Cannot get allowance" + currentDay);
+			}
+		
+			if(monthlyAllowance == true && canGetAllowance == true && allowanceEarned < minAllowance && monthlyAllowanceEarned == false && month >= allowanceMonthStart)
+			{
+				allowanceEarned += leftover*tokenPrice;
+				
+				if(allowanceEarned >= allowance)
+				{
+					allowanceEarned = Number(allowance);
+					monthlyAllowanceEarned = true;
+					leftover -= Number(allowance/tokenPrice);
+					console.log("Allowance earned = " + allowanceEarned);
+					console.log("last day allowance change");
+					lastAllowanceRewardDay = Number(currentDay);
+				}
+			}
+			else
+			{				
+				purchases = (Math.floor(leftover/minStake));
+				purchasesThisMonth+=purchases;
+				leftover -= Number(purchases*minStake);
+				nodes= Number(nodes+purchases);
+				newServerCosts = purchases*oneServerCost_in_token;
+				leftover-= newServerCosts;
+			}
+
+		
 		}
 
 
@@ -561,12 +705,29 @@ function dailySubmit()
 				"</span></td>"+
 			"</tr>");
 	   }
+	   else if(monthlyAllowance == true && monthlyAllowanceEarned == true && allowancePrinted == false)
+	   {
+			allowancePrinted = true;
+	   		$("#t01").find('tbody').append(
+			"<tr><td ><span class='tokenEarnings'> day "+day+"(day"+currentDay+")</span>"+
+		"</td><td><span class='monthlyEarnings'> Monthly allowance</span></td><td>"+
+				"<span> " + (leftover+(allowanceEarned/tokenPrice)) +" " +  tokenName +" (current earnings)</span><br>"+
+				"<span class='red'> - " + (allowanceEarned/tokenPrice) +" " +  tokenName +" (monthly allowance)</span><br>"+
+
+				"<span class='green'>"+leftover+ " " + tokenName + " (current total)"+
+			   
+				"</span></td><td><br></td><td><br></td>"+
+			"</tr>");
+		
+	   }
 	   
 	  
 		currentDay += 1;
 	}
 	
-
+	allowanceEarned = Number(0);
+	monthlyAllowanceEarned = false;
+	allowancePrinted = false;
  }
   
 }
