@@ -81,8 +81,12 @@ on months where 2+ nodes can be purchased the node purchases will be listed as s
 
 the following is how monthly allowance is shown on the monthly (top) and daily (bottom) charts. just look for the yellow background color.
 
-![image](https://user-images.githubusercontent.com/5101197/131769250-98ce29cf-b950-4975-955e-a0e64d8e75eb.png)
-![image](https://user-images.githubusercontent.com/5101197/131769265-c45b09e3-58f8-44f3-837c-9fea367ca04a.png)
+![image](https://user-images.githubusercontent.com/5101197/131769487-5b3cbc60-d23b-4116-bff0-67d637754b64.png)
+
+**----------------------------------------------------------------------------------------**
+
+![image](https://user-images.githubusercontent.com/5101197/131769455-39bdacd0-7091-4301-97df-2a62f1356736.png)
+
 
 
 
