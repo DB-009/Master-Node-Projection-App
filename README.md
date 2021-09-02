@@ -23,10 +23,19 @@ the 2 grey buttons on right auto fill some of the form for either SRX or STRONG
 
 **9** = does node do daily rewards (leave unchecked for SRX)
 
+**10** = rewards yourself a monthly allowance.
+
+**11** = prioritize node creation above earning monthly allowance. (does nothing if monthly allowance is off)
+
+**12** = month into projection to beging earning monthly allowance.
+
+**13** = amount in USD of monthly allowance
 
 
 
-![image](https://user-images.githubusercontent.com/5101197/131311768-779b4298-b049-4f14-89df-ebaa8713ab14.png)
+
+![image](https://user-images.githubusercontent.com/5101197/131766492-45c2d085-141f-4c2a-925a-9bdab89bb85e.png)
+
 
 
 
