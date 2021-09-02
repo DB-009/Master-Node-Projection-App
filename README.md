@@ -1,5 +1,5 @@
 # Master-Node-Projection-App
-An Html/JS webb app that projects earnings for node systems.
+An Html/JS web app that projects earnings for node systems.
 
 **Form explanation**
 
@@ -37,6 +37,21 @@ the 2 grey buttons on right auto fill some of the form for either SRX or STRONG
 ![image](https://user-images.githubusercontent.com/5101197/131766492-45c2d085-141f-4c2a-925a-9bdab89bb85e.png)
 
 
+**----------------------------------------------------------------------------------------**
+
+
+**Notice**
+
+if monthly allowance is turned on along with node priority. the monthly allowance needs a minimum of 30 days to be rewarded. 
+some months it will skip a monthly allowance and prioritize creation of nodes .
+
+ theres 2 reasons this happens 1 is you can create a node before the 30 days the montly allowance is due thus making it take loner. 
+2 is I add a minimum balance needed to get the allowance when node priority is on. this balance needed is the allowance amount you entered
+plus the cost of one node. the reason for this is so you can compare charts with and without node priority so you can see how many
+poterntial nodes you "sacrificed" for a monthly allowance.
+
+
+**----------------------------------------------------------------------------------------**
 
 
 **Monthly payout Preview**
@@ -49,6 +64,7 @@ the ones under it are updated projected earnings. to the right of that is new no
 everything else is pretty self explanitory due to the labels.
 ![image](https://user-images.githubusercontent.com/5101197/131310136-157e787e-d0de-4c30-8df1-ff9e58c291d4.png)
 
+**----------------------------------------------------------------------------------------**
 
 **Daily Reward Preview**
 
@@ -58,6 +74,15 @@ the infomation showed is how much strong you had from previous month, how much y
 
 on months where 2+ nodes can be purchased the node purchases will be listed as shown below. one after another showing the days into the month when to purchase
 ![image](https://user-images.githubusercontent.com/5101197/131311348-b40b9029-8bcf-49b0-a764-33cff81973bc.png)
+
+**----------------------------------------------------------------------------------------**
+
+**Allowance Preview**
+
+the following is how monthly allowance is shown on the monthly (top) and daily (bottom) charts. just look for the yellow background color.
+
+![image](https://user-images.githubusercontent.com/5101197/131769250-98ce29cf-b950-4975-955e-a0e64d8e75eb.png)
+![image](https://user-images.githubusercontent.com/5101197/131769265-c45b09e3-58f8-44f3-837c-9fea367ca04a.png)
 
 
 
